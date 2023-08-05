@@ -1,15 +1,21 @@
-"use client";
-
 import { generatePassword } from "@/utils/passwordGenerator";
 import Image from "next/image";
-import React, { useState } from "react";
-import SettingsForm from "./SettingsForm";
+import React, { Dispatch, SetStateAction, useState } from "react";
+import PasswordSetting from "@/types/PasswordSetting";
 
-const PasswordGenerator = () => {
-  const [password, setPassword] = useState<string>("");
+type Props = {
+  password: string;
+  setPassword: Dispatch<SetStateAction<string>>;
+  passwordSettings: PasswordSetting;
+};
 
+const PasswordGenerator = ({
+  password,
+  setPassword,
+  passwordSettings,
+}: Props) => {
   const refresh = () => {
-    setPassword(generatePassword(16));
+    setPassword(generatePassword(passwordSettings));
   };
 
   const copyToClipboard = () => {
@@ -49,13 +55,7 @@ const PasswordGenerator = () => {
             />
             Copy
           </button>
-          {/* <div className="pointer-events-none hidden group-hover:block bg-black text-white text-sm p-1 rounded absolute top-8 left-96 shadow-sm ">
-          Copy to clipboard
-        </div> */}
         </div>
-      </div>
-      <div>
-        <SettingsForm />
       </div>
     </>
   );

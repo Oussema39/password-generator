@@ -1,35 +1,44 @@
-"use client";
-
 import PasswordSetting from "@/types/PasswordSetting";
-import React from "react";
-import { useForm, type SubmitHandler } from "react-hook-form";
+import React, { Dispatch, SetStateAction, memo, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import FormInput from "./FormElements/FormInput";
 
-const SettingsForm = () => {
-  const { register, handleSubmit } = useForm<PasswordSetting>({
-    defaultValues: {} as PasswordSetting,
+const SettingsForm = ({
+  setPasswordSettings,
+}: {
+  setPasswordSettings: Dispatch<SetStateAction<PasswordSetting>>;
+}) => {
+  const { register, watch } = useForm<PasswordSetting>({
+    defaultValues: { length: 8 } as PasswordSetting,
   });
 
-  const onSubmit: SubmitHandler<PasswordSetting> = (data) => {
-    console.log(data);
-  };
+  useEffect(() => {
+    setPasswordSettings(watch());
+  }, [watch()]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <br />
-      <FormInput
-        label="Length"
-        {...register("length", { required: true, min: 8, max: 24 })}
-        min={8}
-        max={24}
-        type="number"
-        className="text-black rounded-md px-3 py-1 font-medium border-solid border-2 border-gray-500 outline-none"
-      />
-      {/* <input
-        type="submit"
-        value="submit"
-        className="outline-none border-solid border-2 capitalize border-gray-600/25 py-1 px-5 rounded-md"
-      /> */}
+    <form className="grid grid-rows-3 grid-flow-row-dense ">
+      <fieldset className="border-2 border-solid border-white p-2 rounded-sm">
+        <legend className="text-white text-left">Settings</legend>
+        <FormInput
+          label="Length"
+          {...register("length", { required: true, min: 8, max: 24 })}
+          min={8}
+          max={24}
+          type="number"
+          className="text-black rounded-sm px-3 w-fit py-1 font-medium border-solid border-2 border-gray-500 outline-none"
+        />
+        <FormInput
+          label="Allow numbers"
+          type="checkbox"
+          {...register("allowNumbers", { required: true, min: 8, max: 24 })}
+        />
+        <FormInput
+          label="Allow duplicates"
+          type="checkbox"
+          {...register("allowDuplicates", { required: true, min: 8, max: 24 })}
+        />
+      </fieldset>
     </form>
   );
 };

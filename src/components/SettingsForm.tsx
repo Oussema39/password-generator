@@ -14,10 +14,10 @@ const SettingsForm = ({
 
   useEffect(() => {
     setPasswordSettings(watch());
-  }, [watch()]);
+  }, [JSON.stringify(watch())]);
 
   return (
-    <form className="grid grid-rows-3 grid-flow-row-dense ">
+    <form>
       <fieldset className="border-2 border-solid border-white p-2 rounded-sm">
         <legend className="text-white text-left">Settings</legend>
         <FormInput

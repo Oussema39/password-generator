@@ -14,7 +14,7 @@ const SettingsForm = ({
 
   useEffect(() => {
     setPasswordSettings(watch());
-  }, [JSON.stringify(watch())]);
+  }, [setPasswordSettings, watch]);
 
   return (
     <form>
